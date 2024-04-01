@@ -14,14 +14,6 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        $var = [
-            'a simple string' => "in an array of 5 elements",
-            'a float' => 1.0,
-            'an integer' => 1,
-            'a boolean' => true,
-            'an empty array' => [],
-        ];
-        dump($var);
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
@@ -32,14 +24,6 @@ class HomeController extends AbstractController
      */
     public function sidebar(Request $request): Response
     {
-        $var = [
-            'a simple string' => "in an array of 5 elements",
-            'a float' => 1.0,
-            'an integer' => 1,
-            'a boolean' => true,
-            'an empty array' => [],
-        ];
-        dump($var);
         $username = $request->get('username');
         return new Response("
         <aside>Sidebar {$username}</aside>");
