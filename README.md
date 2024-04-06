@@ -4,10 +4,20 @@
  php bin\console list
 ```
 
-## Start Local DB
+## Getting start
 
 ```sh
 docker-compose -f compose.yaml -p "sf_local" up -d
+symfony server:start
+```
+
+### Migrations
+
+```sh
+# generate
+php bin/console make:migration
+# run migrations
+php bin/console doctrine:migrations:migrate
 ```
 
 ### Create new entity
