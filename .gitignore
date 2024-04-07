@@ -20,4 +20,4 @@
 ###< symfony/phpunit-bridge ###
 
 ### Upload folders
-/uploads/
+/public/uploads/

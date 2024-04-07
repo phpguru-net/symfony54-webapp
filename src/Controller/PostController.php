@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Service\FileUploaderService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -32,7 +33,7 @@ class PostController extends AbstractController
     /**
      * @Route("/create", name="create")
      */
-    public function create(Request $request, ManagerRegistry $doctrine): Response
+    public function create(Request $request, ManagerRegistry $doctrine, FileUploaderService $fileUploaderService): Response
     {
         // create new post with title
         $post = new Post();
@@ -44,16 +45,9 @@ class PostController extends AbstractController
         if ($form->isSubmitted()) {
 
             // handle file upload
-            /** @var UploadedFile $file */
             $file = $request->files->get('post')['attachment'];
             if ($file) {
-                $filename = sprintf("%s.%s",md5(uniqid()),$file->guessClientExtension());
-                $uploads_dir = $this->getParameter('uploads_dir');
-                // move tmp file to upload folder or somewhere
-                $file->move(
-                    $uploads_dir,
-                    $filename
-                );
+                $filename = $fileUploaderService->upload($file);
                 $post->setImage($filename);
             }
 
@@ -89,8 +83,10 @@ class PostController extends AbstractController
     /**
      * @Route("/show/{id}", name="show")
      */
-    public function show(Post $post): Response
+    public function show(Post $post, PostRepository $postRepository): Response
     {
+        $p = $postRepository->findPostWithCategory($post->getId());
+        dump($p);
         return $this->render('post/show.html.twig', [
             'post' => $post
         ]);

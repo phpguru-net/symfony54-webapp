@@ -39,6 +39,22 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param int $id
+     * @return Post[] Returns an array of Post objects
+     */
+    public function findPostWithCategory(int $id): array{
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p.title')
+            ->addSelect('p.id')
+            ->addSelect('c.name as category')
+            ->addSelect('c.id as categoryId')
+            ->innerJoin('p.category', 'c')
+            ->where('p.id = :id')
+            ->setParameter('id', $id);
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */

@@ -27,6 +27,11 @@ class Post
      */
     private $image;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="posts")
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -58,5 +63,17 @@ class Post
     public function setImage($image): void
     {
         $this->image = $image;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }
