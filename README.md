@@ -8,6 +8,7 @@
 
 ```sh
 docker-compose -f compose.yaml -p "sf_local" up -d
+symfony server:stop
 symfony server:start
 ```
 
