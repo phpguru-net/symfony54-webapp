@@ -26,3 +26,11 @@ php bin/console doctrine:migrations:migrate
 ```sh
 php bin\console make:entity
 ```
+
+## Testing
+
+```sh
+php -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-html var/log/test-coverage
+php -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-html var/log/test-coverage --coverage-clover var/log/clover.xml --log-junit var/log/junit.xml
+
+```

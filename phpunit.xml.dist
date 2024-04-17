@@ -27,6 +27,9 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <report>
+            <html outputDirectory="var/log/test-coverage"/>
+        </report>
     </coverage>
 
     <listeners>

@@ -51,6 +51,7 @@ class PostController extends AbstractController
                 $post->setImage($filename);
             }
 
+
             // entity manager to persist data into database
             $entityManger = $doctrine->getManager();
             $entityManger->persist($post);
