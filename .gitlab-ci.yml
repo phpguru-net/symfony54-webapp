@@ -1,0 +1,23 @@
+stages:
+  - test
+
+phpunit_test:
+  stage: test
+  image: php:8.0
+  services:
+    - mysql:latest
+  before_script:
+    - docker-php-ext-install pdo_mysql
+    - pecl install xdebug
+    - docker-php-ext-enable xdebug
+    - echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    - composer install
+  script:
+    - composer test
+    - composer test-coverage
+  artifacts:
+    paths:
+      - var/log/test-coverage/
+    expire_in: 1 week
+  only:
+    - main
