@@ -12,6 +12,7 @@ parameters:
         photos: '/photos'
         todos: '/todos'
         users: '/users'
+    data_saver.directory: '%kernel.project_dir%/data'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -49,3 +50,18 @@ services:
         arguments:
             $httpClient: '@json_placeholder_http_client'
             $endpoints: '%json_placeholder_service.endpoints%'
+
+    Symfony\Component\Filesystem\Filesystem: ~
+
+    App\Service\DataSaverService:
+        arguments:
+            $filesystem: '@Symfony\Component\Filesystem\Filesystem'
+            $targetDirectory: '%data_saver.directory%'
+
+    # commands
+    App\Command\FetchJsonPlaceholderPostsCommand:
+        arguments:
+            $jsonPlaceholderService: '@App\Service\JsonPlaceholderService'
+            $dataSaverService: '@App\Service\DataSaverService'
+        tags:
+            - { name: 'console.command' }
